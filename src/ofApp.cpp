@@ -36,7 +36,7 @@ void ofApp::setup(){
 	}
 
 	// set the vertex data
-	vbo.setVertexData(pos, NUM_BILLBOARDS, GL_DYNAMIC_DRAW);
+	//vbo.setVertexData(pos, NUM_BILLBOARDS, GL_DYNAMIC_DRAW);
 	if (ofGetGLProgrammableRenderer()){
 		shader.load("shaderGL3/Billboard");
 	}
@@ -45,9 +45,17 @@ void ofApp::setup(){
 	}
 
 	ofDisableArbTex();
-	//Ika.loadImage("img/ika1.png");
-	Light.loadImage("img/blueLight.png");
 
+	imgResource.setResource("Ika1","img/ika1.png");
+	imgResource.setResource("Ika1_back", "img/ikal1.png");
+	imgResource.setResource("BlueLight", "img/blueLight.png");
+
+	//Ika.loadImage("img/ika1.png");
+	//Light.loadImage("img/ikal1.png");
+
+	ikaParticleSystem = new IkaParticleSystem(NUM_BILLBOARDS, &shader, imgResource.getResourcePtr("Ika1"), imgResource.getResourcePtr("Ika1_back")); // new
+
+	/*
 	shader.begin();
 	int pointAttLoc = shader.getAttributeLocation("pointSize");
 	vbo.setAttributeData(pointAttLoc, pointSizes, 1, NUM_BILLBOARDS, GL_DYNAMIC_DRAW);
@@ -59,11 +67,18 @@ void ofApp::setup(){
 	vbo.setAttributeData(alphaLoc, alphas, 1, NUM_BILLBOARDS, GL_DYNAMIC_DRAW);
 
 	int tex0 = glGetUniformLocation(shader.getProgram(),"tex1");
+	*/
+
+	ikaParticleSystem->setup();
 
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+
+	ikaParticleSystem->update();
+
+	/*
 	t = ofGetFrameNum() * timeSpeed;
 	ofVec2f mousePos;
 	mousePos.x = ofGetMouseX();
@@ -105,18 +120,20 @@ void ofApp::update(){
 		if (pos[i].x > ofGetWidth()+100) pos[i].x = 0-100;
 		if (pos[i].y < 0-100) pos[i].y = ofGetHeight() + 100;
 		if (pos[i].y > ofGetHeight()+100) pos[i].y = 0 - 100;
-		*/
+		
 		float a = min(0.5f+(float)sin( ofDegToRad(count % 360)),1.0f);
-
 		alphas[i] = a;
+		
+
 	}
+	*/
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 	ofBackgroundGradient(ofColor(0, 32, 70), ofColor(0,64,135));
 	
-
+	/*
 	ofEnableBlendMode(OF_BLENDMODE_ADD); // ‰ÁŽZ‡¬‚É•ÏX
 	shader.begin();
 
@@ -144,6 +161,12 @@ void ofApp::draw(){
 	
 	ofDrawBitmapStringHighlight("  FPS: " + ofToString(ofGetFrameRate()), 30, 20);
 	ofDrawBitmapStringHighlight("  ALPHA: " + ofToString(max((float)sin(ofDegToRad(ofGetFrameNum() % 360)),0.0f)), 30, 40);
+
+	ofImage* img = imgResource.getResourcePtr("Ika1");
+	img->draw(20,20);
+	*/
+
+	ikaParticleSystem->draw();
 }
 
 //--------------------------------------------------------------
@@ -206,4 +229,8 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
+}
+
+ofApp::~ofApp(){
+	delete ikaParticleSystem;
 }

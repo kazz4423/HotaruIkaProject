@@ -2,12 +2,16 @@
 
 #include "ofMain.h"
 #include "ofVbo.h"
+#include "ImageResource.h"
+#include "ShaderResource.h"
+#include "IkaParticleSystem.h"
 
-#define NUM_BILLBOARDS 1000
+#define NUM_BILLBOARDS 100
 
 class ofApp : public ofBaseApp{
 
 	public:
+		~ofApp();
 		void setup();
 		void update();
 		void draw();
@@ -27,6 +31,13 @@ class ofApp : public ofBaseApp{
 	private:
 		ofImage Ika;
 		ofImage Light;
+
+		ImageResource imgResource;
+
+		//ShaderResource shaderResource;
+
+		IkaParticleSystem* ikaParticleSystem;
+
 		ofVbo vbo;
 		ofShader shader;
 
