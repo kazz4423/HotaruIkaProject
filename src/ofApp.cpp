@@ -71,11 +71,27 @@ void ofApp::setup(){
 
 	ikaParticleSystem->setup();
 
+	gui.setup();
+	gui.add(power.setup("Power",3,1,200));
+	gui.add(range.setup("MaxPower",17,0,50));
+	gui.add(maxRange.setup("MaxDepthRange",771,600,1500));
+	gui.add(button.setup("Draw Vector",true));
+
+	kinect.init();
+	kinect.Open();
+
+	VF.setupField( 128, 87, 512*2, 384*2);
+
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
+	int depth[512*384];
+	kinect.setMaxRange(maxRange);
+	kinect.Update();
+	kinect.getDepthFrameBuffer(512, 384, depth);
+	VF.createVectorFieldByDepth(depth, maxRange, power, range);
+	ikaParticleSystem->setVectorField(VF);
 	ikaParticleSystem->update();
 
 	/*
@@ -167,6 +183,11 @@ void ofApp::draw(){
 	*/
 
 	ikaParticleSystem->draw();
+	ofSetColor(255,0,0);
+	if(button)VF.draw();
+	ofSetColor(255,255,255);
+	gui.draw();
+
 }
 
 //--------------------------------------------------------------

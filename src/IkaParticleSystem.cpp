@@ -50,6 +50,7 @@ void IkaParticleSystem::setup(){
 	vbo.setAttributeData(alphaLoc, &alpha.at(0), 1, maxNum, GL_DYNAMIC_DRAW);
 
 	shader->end();
+
 }
 
 void IkaParticleSystem::update(){
@@ -58,6 +59,7 @@ void IkaParticleSystem::update(){
 	for(auto itr = particles.begin(); itr != particles.end(); ++itr)
 	{
 		(*itr)->update();
+		(*itr)->addForce(VF.getForceFromPos((*itr)->getPos().x, (*itr)->getPos().y));
 		pos[c] = (*itr)->getPos();
 		alpha[c] = (*itr)->getAlpha();
 		rotation[c] = (*itr)->getRotation();
@@ -93,3 +95,6 @@ void IkaParticleSystem::draw(){
 
 }
 
+void IkaParticleSystem::setVectorField(vectorField _vf){
+	VF = _vf;
+}

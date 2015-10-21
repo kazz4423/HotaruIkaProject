@@ -5,8 +5,11 @@
 #include "ImageResource.h"
 #include "ShaderResource.h"
 #include "IkaParticleSystem.h"
+#include "vectorField.h"
+#include "kinectSDK4Ofx.h"
+#include "ofxGui.h"
 
-#define NUM_BILLBOARDS 100
+#define NUM_BILLBOARDS 1000
 
 class ofApp : public ofBaseApp{
 
@@ -37,7 +40,8 @@ class ofApp : public ofBaseApp{
 		//ShaderResource shaderResource;
 
 		IkaParticleSystem* ikaParticleSystem;
-
+		kinectSDK4Ofx kinect;
+		vectorField VF;
 		ofVbo vbo;
 		ofShader shader;
 
@@ -51,4 +55,11 @@ class ofApp : public ofBaseApp{
 
 		float t;
 		bool flag;
+
+		// GUI
+		ofxPanel gui;
+		ofxIntSlider power;
+		ofxIntSlider range;
+		ofxIntSlider maxRange;
+		ofxToggle button;
 };

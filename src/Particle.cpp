@@ -31,3 +31,7 @@ float Particle::getRotation(){
 float Particle::getAlpha(){
 	return alphas;
 }
+
+void Particle::addForce(ofVec2f _acc){
+	acc += _acc;
+}

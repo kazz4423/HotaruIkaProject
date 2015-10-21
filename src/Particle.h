@@ -16,6 +16,8 @@ public:
 	float getPointSize();
 	float getRotation();
 	float getAlpha();
+
+	void addForce(ofVec2f _acc);
 	virtual Particle* copy() = 0;
 
 };
