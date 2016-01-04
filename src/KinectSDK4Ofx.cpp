@@ -168,6 +168,14 @@ void kinectSDK4Ofx::getDepthFrameBuffer(int w, int h, int* buffer){
 						buffer[w*y + x] = (int)depthBuffar[w*y + (w-1-x)];
 					}
 				}
+				// ¶‰E”½“]ˆ—
+				for(int y =0; y < h ;y++){
+					for(int x = 0; x < w/2;x++){
+						int tmp = buffer[w*y + x];
+						buffer[w*y + x] = buffer[w*y + ((w-1) -x)];
+						buffer[w*y + ((w-1) -x)] = tmp;
+					}
+				}
 				//buffer = pDepthBuffer;
 			delete [
 			] pDepthBuffer;

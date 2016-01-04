@@ -52,7 +52,7 @@ public:
 	//内向きの力を加える(改造版)
 	void addInwardCircleKai(float x, float y, float radius, float strength);
 	// depthデータからベクトル場を生成する。512*384限定
-	void createVectorFieldByDepth(int* buffer,int filter,int power,int powerFilter);
+	void createVectorFieldByDepth(int* buffer,int filter,int power,int powerFilter, float size);
 protected:
 private:
 };

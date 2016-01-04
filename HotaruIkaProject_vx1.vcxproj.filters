@@ -58,6 +58,9 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp">
       <Filter>addons\ofxGUI</Filter>
     </ClCompile>
+    <ClCompile Include="src\IkaAnimParticleSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h">
       <Filter>addons\ofxGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IkaAnimParticleSystem.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

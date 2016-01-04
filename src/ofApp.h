@@ -5,11 +5,12 @@
 #include "ImageResource.h"
 #include "ShaderResource.h"
 #include "IkaParticleSystem.h"
+#include "IkaAnimParticleSystem.h"
 #include "vectorField.h"
 #include "kinectSDK4Ofx.h"
 #include "ofxGui.h"
 
-#define NUM_BILLBOARDS 1000
+#define NUM_BILLBOARDS 100
 
 class ofApp : public ofBaseApp{
 
@@ -40,10 +41,12 @@ class ofApp : public ofBaseApp{
 		//ShaderResource shaderResource;
 
 		IkaParticleSystem* ikaParticleSystem;
+		IkaAnimParticleSystem* ikaAnimParticleSystem;
+
 		kinectSDK4Ofx kinect;
 		vectorField VF;
 		ofVbo vbo;
-		ofShader shader;
+		ofShader shader, animShader;
 
 		ofVec2f pos[NUM_BILLBOARDS]; // 位置ベクトル
 		ofVec2f vel[NUM_BILLBOARDS]; // 速度ベクトル
@@ -62,4 +65,6 @@ class ofApp : public ofBaseApp{
 		ofxIntSlider range;
 		ofxIntSlider maxRange;
 		ofxToggle button;
+		ofxLabel fps;
+		ofxFloatSlider scale;
 };

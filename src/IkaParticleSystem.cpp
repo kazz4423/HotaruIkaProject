@@ -98,3 +98,14 @@ void IkaParticleSystem::draw(){
 void IkaParticleSystem::setVectorField(vectorField _vf){
 	VF = _vf;
 }
+
+void IkaParticleSystem::resetIkaPos(){
+	std::vector<std::shared_ptr<Particle>>::iterator itr;
+	int c = 0; // イテレータ用カウンタ
+	for(auto itr = particles.begin(); itr != particles.end(); ++itr)
+	{
+		(*itr)->setPos(ofRandomWidth(), ofRandomHeight());
+		pos[c] = (*itr)->getPos();
+		c++;
+	}
+}

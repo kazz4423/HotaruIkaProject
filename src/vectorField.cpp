@@ -330,8 +330,10 @@ void vectorField::addInwardCircleKai(float x, float y, float radius, float stren
 }
 
 // depthデータからベクトル場を生成する。Depth 512*384 かつ 分割数128*87分割でないと使えない
-void vectorField::createVectorFieldByDepth(int* buffer,int filter,int power,int powerFilter){
+void vectorField::createVectorFieldByDepth(int* buffer,int filter,int power,int powerFilter, float size){
 	if(buffer != NULL){
+		ofVec2f* tmpField = new ofVec2f[128*87]; //臨時動的配列
+
 		for(int y = 0; y < 87; y++){
 			for(int x = 0; x < 128; x++){
 				float powerX, powerY;
@@ -398,10 +400,26 @@ void vectorField::createVectorFieldByDepth(int* buffer,int filter,int power,int 
 					powerX = 0;
 					powerY = 0;
 				}
-				field[y*128+x].x = powerX/power;
-				field[y*128+x].y = powerY/power;
+
+				tmpField[y*128+x].x = powerX/power;
+				tmpField[y*128+x].y = powerY/power;
 			}
 		}
+		 // 任意拡大処理
+		int offsetX = 128/2 * (1 - size);
+		int offsetY = 87/2 * (1 - size);
+
+		for(int y = 0; y < 87; y++){
+			for(int x = 0; x < 128; x++){
+
+				int sx = x*size; 
+				int sy = y*size;
+				field[y*128+x] = tmpField[(sy+offsetY)*128+sx+offsetX] ;
+			}
+		}
+
+
+		delete[] tmpField;
 	}
 }
 

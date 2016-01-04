@@ -35,3 +35,7 @@ float Particle::getAlpha(){
 void Particle::addForce(ofVec2f _acc){
 	acc += _acc;
 }
+
+int Particle::getUniNum(){
+	return uni;
+}

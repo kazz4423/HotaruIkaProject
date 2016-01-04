@@ -26,6 +26,7 @@ public:
 
 
 	void setVectorField(vectorField _vf);
+	void resetIkaPos();
 	void setup();
 	void update();
 	void draw();

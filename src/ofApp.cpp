@@ -39,9 +39,11 @@ void ofApp::setup(){
 	//vbo.setVertexData(pos, NUM_BILLBOARDS, GL_DYNAMIC_DRAW);
 	if (ofGetGLProgrammableRenderer()){
 		shader.load("shaderGL3/Billboard");
+		//animShader()
 	}
 	else{
 		shader.load("shaderGL2/Billboard");
+		animShader.load("shaderGL2/BillboardUVAni");
 	}
 
 	ofDisableArbTex();
@@ -49,11 +51,14 @@ void ofApp::setup(){
 	imgResource.setResource("Ika1","img/ika1.png");
 	imgResource.setResource("Ika1_back", "img/ikal1.png");
 	imgResource.setResource("BlueLight", "img/blueLight.png");
+	imgResource.setResource("NewIka", "img/ika2.png");
 
 	//Ika.loadImage("img/ika1.png");
 	//Light.loadImage("img/ikal1.png");
 
 	ikaParticleSystem = new IkaParticleSystem(NUM_BILLBOARDS, &shader, imgResource.getResourcePtr("Ika1"), imgResource.getResourcePtr("Ika1_back")); // new
+	
+	//ikaAnimParticleSystem = new IkaAnimParticleSystem(NUM_BILLBOARDS,  &animShader, imgResource.getResourcePtr("NewIka"),3,3);
 
 	/*
 	shader.begin();
@@ -70,13 +75,14 @@ void ofApp::setup(){
 	*/
 
 	ikaParticleSystem->setup();
-
+	//ikaAnimParticleSystem->setup();
 	gui.setup();
+	gui.add(fps.setup("FPS", ""));
 	gui.add(power.setup("Power",3,1,200));
 	gui.add(range.setup("MaxPower",17,0,50));
-	gui.add(maxRange.setup("MaxDepthRange",771,600,1500));
+	gui.add(maxRange.setup("MaxDepthRange",771,600,3000));
 	gui.add(button.setup("Draw Vector",true));
-
+	gui.add(scale.setup("Scale",1,0.5,1));
 	kinect.init();
 	kinect.Open();
 
@@ -86,13 +92,18 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	fps = ofToString(((float)(ofGetFrameNum()  % 630)) /100); //ofToString(ofGetFrameRate());
+
 	int depth[512*384];
 	kinect.setMaxRange(maxRange);
 	kinect.Update();
 	kinect.getDepthFrameBuffer(512, 384, depth);
-	VF.createVectorFieldByDepth(depth, maxRange, power, range);
+	VF.createVectorFieldByDepth(depth, maxRange, power, range, scale);
 	ikaParticleSystem->setVectorField(VF);
 	ikaParticleSystem->update();
+
+	//ikaAnimParticleSystem->setVectorField(VF);
+	//ikaAnimParticleSystem->update();
 
 	/*
 	t = ofGetFrameNum() * timeSpeed;
@@ -183,6 +194,8 @@ void ofApp::draw(){
 	*/
 
 	ikaParticleSystem->draw();
+	//ikaAnimParticleSystem->draw();
+
 	ofSetColor(255,0,0);
 	if(button)VF.draw();
 	ofSetColor(255,255,255);
@@ -197,16 +210,8 @@ void ofApp::keyPressed(int key){
 	}
 	if (key == 'r'){
 		for (int i = 0; i < NUM_BILLBOARDS; i++){
-			pos[i].x = ofRandomWidth();
-			pos[i].y = ofRandomHeight();
-			vel[i].x = 0; //ofRandomf();
-			vel[i].y = 0; //ofRandomf();
-			acc[i].x = 0;
-			acc[i].y = 0;
- 			pointSizes[i] = 25.0f;
-			rotations[i] = ofRandom(0, 360);
-			alphas[i] = 1.0f;
-			def[i] = (int)ofRandom(0, 360);
+			ikaParticleSystem->resetIkaPos();
+			//ikaAnimParticleSystem->resetIkaPos();
 		}
 	}
 }
@@ -254,4 +259,5 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 ofApp::~ofApp(){
 	delete ikaParticleSystem;
+	//delete ikaAnimParticleSystem;
 }
